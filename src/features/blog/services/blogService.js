@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:3008/blog";
-
+const token = localStorage.getItem("authToken");
 export const getBlogs = async () => {
   const response = await axios.get(API_URL);
   return response.data;
@@ -13,7 +13,11 @@ export const getBlogById = async (id) => {
 };
 
 export const createBlog = async (blogData) => {
-  const response = await axios.post(API_URL, blogData);
+  const response = await axios.post(API_URL, blogData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 

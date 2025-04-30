@@ -48,11 +48,11 @@ const ButtonLink = styled(Link)`
 `;
 
 const BlogListPage = () => {
-  const { data: blogs, isLoading, isError, error } = useBlogs();
+  const { data, isLoading, isError, error } = useBlogs();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.message}</p>;
-
+  const blogs = Array.isArray(data) ? data : [];
   return (
     <ListContainer>
       <h1>Blog List</h1>
