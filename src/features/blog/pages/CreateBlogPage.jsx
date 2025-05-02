@@ -66,12 +66,16 @@ const CreateBlogPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const blogData = { title, content, coverImage };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    if (coverImage) {
+      formData.append("image", coverImage);
+    }
 
-    createBlog(blogData, {
+    createBlog(formData, {
       onSuccess: () => {
-        // Redirect to the blog list after creation
-        navigate("/blogs");
+        navigate("/");
       },
     });
   };
@@ -95,12 +99,11 @@ const CreateBlogPage = () => {
           onChange={(e) => setContent(e.target.value)}
           required
         />
-        <label htmlFor="coverImage">Cover Image URL (optional)</label>
+        <label htmlFor="coverImage">Cover Image (optional)</label>
         <TitleInput
-          type="text"
+          type="file"
           id="coverImage"
-          value={coverImage}
-          onChange={(e) => setCoverImage(e.target.value)}
+          onChange={(e) => setCoverImage(e.target.files[0])}
         />
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Creating..." : "Create Blog"}

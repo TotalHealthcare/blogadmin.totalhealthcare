@@ -8,11 +8,11 @@ export const useBlogs = () => {
   });
 };
 
-export const useBlog = (id) => {
+export const useBlog = (slug) => {
   return useQuery({
-    queryKey: ["blog", id],
-    queryFn: () => blogService.getBlogById(id),
-    enabled: !!id,
+    queryKey: ["blog", slug],
+    queryFn: () => blogService.getBlogBySlug(slug),
+    enabled: !!slug,
   });
 };
 
@@ -31,7 +31,7 @@ export const useUpdateBlog = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, blogData }) => blogService.updateBlog(id, blogData),
+    mutationFn: ({ slug, blogData }) => blogService.updateBlog(slug, blogData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
     },

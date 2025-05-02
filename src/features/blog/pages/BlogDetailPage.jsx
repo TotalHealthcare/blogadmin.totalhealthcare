@@ -45,7 +45,7 @@ const BlogDetailPage = () => {
 
   useEffect(() => {
     if (isError) {
-      navigate("/blogs"); // Redirect to blogs list if there's an error
+      navigate("/blogs");
     }
   }, [isError, navigate]);
 
@@ -56,7 +56,7 @@ const BlogDetailPage = () => {
     <Container>
       <BlogTitle>{blog.title}</BlogTitle>
       <BlogContent>{blog.content}</BlogContent>
-      <BackButton onClick={() => navigate("/blogs")}>Back to Blogs</BackButton>
+      <BackButton onClick={() => navigate("/")}>Back to Blogs</BackButton>
     </Container>
   );
 };

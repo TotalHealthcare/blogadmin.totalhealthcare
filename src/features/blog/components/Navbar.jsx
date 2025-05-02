@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const NavbarWrapper = styled.div`
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,7 +26,7 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled(Link)`
-  color: white;
+  color: #1a1a1a;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 500;
@@ -34,7 +34,8 @@ const NavLink = styled(Link)`
   border-radius: 4px;
 
   &:hover {
-    background-color: #333;
+    background-color: #2563eb;
+    color: white;
   }
 `;
 

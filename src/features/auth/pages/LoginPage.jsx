@@ -126,6 +126,7 @@ const LoginPage = () => {
               value={form.email}
               onChange={handleChange}
               required
+              disabled={isPending}
             />
 
             <Input
