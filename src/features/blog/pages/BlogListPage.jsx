@@ -51,7 +51,7 @@ const BlogListPage = () => {
               · {new Date(selectedBlog.createdAt).toDateString()}
             </DetailMeta>
             <DetailContent>{selectedBlog.content}</DetailContent>
-            <ButtonLink to={`/blogs/${selectedBlog._id}`}>Read More</ButtonLink>
+            <ButtonLink to={`/blogs/${selectedBlog._id}`}>Delete</ButtonLink>
             <EditButtonLink to={`/blogs/${selectedBlog.slug}/edit`}>
               Edit
             </EditButtonLink>
@@ -161,7 +161,7 @@ const ButtonLink = styled(Link)`
   display: inline-block;
   margin-top: 10px;
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #ff0008;
   color: white;
   border-radius: 4px;
   text-decoration: none;
