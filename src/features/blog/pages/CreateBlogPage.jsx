@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateBlog } from "../hooks/useBlog";
 import styled from "styled-components";
-
+import { toast } from "react-toastify";
 const FormContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
@@ -72,12 +72,29 @@ const CreateBlogPage = () => {
     if (coverImage) {
       formData.append("image", coverImage);
     }
+    const toastId = toast.loading("Creating your blog post...");
 
     createBlog(formData, {
       onSuccess: () => {
-        navigate("/");
+        toast.dismiss(toastId);
+        toast.success("Blog post created successfully!");
+        navigate("/blog");
+      },
+      onError: (error) => {
+        toast.dismiss(toastId);
+        toast.error(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to create blog post"
+        );
       },
     });
+
+    // createBlog(formData, {
+    //   onSuccess: () => {
+    //     navigate("/blog");
+    //   },
+    // });
   };
 
   return (

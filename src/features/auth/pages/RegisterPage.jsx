@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
@@ -95,9 +96,15 @@ const Terms = styled.p`
     text-decoration: underline;
   }
 `;
-
+const NameFields = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+`;
 const RegisterPage = () => {
   const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -111,10 +118,34 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!form.firstName || !form.lastName || !form.email || !form.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (form.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    // Use the mutation with callbacks and toast
     register(form, {
-      onSuccess: () => navigate("/login"),
-      onError: () => alert("Registration failed"),
+      onSuccess: () => {
+        toast.success("Registration successful! Redirecting to login...");
+        navigate("/login");
+      },
+      onError: (error) => {
+        toast.error(
+          error.response?.data?.message ||
+            "Registration failed. Please try again."
+        );
+      },
     });
+    // register(form, {
+    //   onSuccess: () => navigate("/login"),
+    //   onError: () => alert("Registration failed"),
+    // });
   };
 
   return (
@@ -129,6 +160,25 @@ const RegisterPage = () => {
         <FormCard>
           <h2>Signup</h2>
           <Form onSubmit={handleSubmit}>
+            <NameFields>
+              <Input
+                name="firstName"
+                type="text"
+                placeholder="First Name"
+                value={form.firstName}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                name="lastName"
+                type="text"
+                placeholder="Last Name"
+                value={form.lastName}
+                onChange={handleChange}
+                required
+              />
+            </NameFields>
+
             <Input
               name="email"
               type="email"

@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3008/blog";
 
-export const getBlogs = async () => {
+export const getBlogs = async (page = 1, limit = 5) => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(`${API_URL}?page=${page}&limit=${limit}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -46,12 +46,12 @@ export const updateBlog = async (slug, blogData) => {
   }
 };
 
-export const deleteBlog = async (id) => {
+export const deleteBlog = async (slug) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.delete(`${API_URL}/${slug}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting blog with ID ${id}:`, error);
+    console.error(`Error deleting blog with ID ${slug}:`, error);
     throw error;
   }
 };

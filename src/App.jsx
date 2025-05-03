@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./features/blog/components/Navbar";
 import BlogListPage from "./features/blog/pages/BlogListPage";
 import BlogDetailPage from "./features/blog/pages/BlogDetailPage";
@@ -23,7 +25,7 @@ const App = () => {
           <div style={{ marginTop: "60px" }}>
             <Routes>
               <Route
-                path="/"
+                path="/blog"
                 element={
                   <ProtectedRoute>
                     <BlogListPage />
@@ -51,6 +53,18 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
             </Routes>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
         </Router>
       </AuthProvider>
     </QueryClientProvider>

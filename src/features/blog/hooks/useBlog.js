@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import * as blogService from "../services/blogService";
-
-export const useBlogs = () => {
+// import { useAuth } from "../../../context/authContext";
+export const useBlogs = (page = 1, limit = 5) => {
   return useQuery({
-    queryKey: ["blogs"],
-    queryFn: blogService.getBlogs,
+    queryKey: ["blogs", page, limit],
+    queryFn: () => blogService.getBlogs(page, limit),
+    keepPreviousData: true,
   });
 };
 
@@ -40,11 +42,16 @@ export const useUpdateBlog = () => {
 
 export const useDeleteBlog = () => {
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
+  // const { user } = useAuth();
   return useMutation({
     mutationFn: blogService.deleteBlog,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      queryClient.invalidateQueries(["blogs"]);
+      navigate("/blog");
+    },
+    onError: (error) => {
+      throw error;
     },
   });
 };

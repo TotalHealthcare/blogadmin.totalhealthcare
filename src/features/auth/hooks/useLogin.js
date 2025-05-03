@@ -10,6 +10,11 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data?.accessToken) {
         login(data.accessToken);
+        const userData = {
+          token: data.accessToken,
+          user: data.user,
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
         window.location.href = "/blogs/create";
       } else {
         console.error("No token received");

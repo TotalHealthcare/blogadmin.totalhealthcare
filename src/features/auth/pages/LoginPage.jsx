@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
@@ -93,18 +94,32 @@ const LoginPage = () => {
   });
 
   const navigate = useNavigate();
-  const { mutate: login, isPending } = useLogin();
-
+  const { mutateAsync: login, isPending } = useLogin();
+  const toastId = React.useRef();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    toastId.current = toast.loading("Logging in...");
     login(form, {
-      onSuccess: () => navigate("/blogs/create"),
-      onError: () => alert("Invalid login credentials"),
+      onSuccess: () => {
+        toast.dismiss(toastId.current);
+        toast.success("Login successful! Redirecting...");
+        navigate("/blogs/create");
+      },
+      onError: (error) => {
+        toast.dismiss(toastId.current);
+        toast.error(
+          error.response?.data?.message || "Invalid login credentials"
+        );
+      },
     });
+    // login(form, {
+    //   onSuccess: () => navigate("/blogs/create"),
+    //   onError: () => alert("Invalid login credentials"),
+    // });
   };
 
   return (

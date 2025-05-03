@@ -56,7 +56,7 @@ const BlogDetailPage = () => {
     <Container>
       <BlogTitle>{blog.title}</BlogTitle>
       <BlogContent>{blog.content}</BlogContent>
-      <BackButton onClick={() => navigate("/")}>Back to Blogs</BackButton>
+      <BackButton onClick={() => navigate("/blog")}>Back to Blogs</BackButton>
     </Container>
   );
 };

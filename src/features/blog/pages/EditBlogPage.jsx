@@ -71,10 +71,6 @@ const EditBlogPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  // Debug: Log slug and blog data
-  console.log("Slug from URL:", slug);
-  console.log("Fetched blog data:", blog);
-
   useEffect(() => {
     if (blog?.title && blog?.content) {
       setTitle(blog.title);
