@@ -55,8 +55,9 @@ const PrimaryButton = styled(NavLink)`
 `;
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { authToken, logout } = useAuth();
   const location = useLocation();
+
   return (
     <NavbarWrapper>
       <NavbarContainer>
@@ -64,15 +65,15 @@ const Navbar = () => {
         <NavLinks>
           <NavLink to="/blog">Blogs</NavLink>
 
-          {user && !location.pathname.startsWith("/blogs/create") && (
+          {authToken && location.pathname !== "/blogs/create" && (
             <PrimaryButton to="/blogs/create">Create</PrimaryButton>
           )}
 
-          {user && location.pathname.startsWith("/blogs/create") && (
+          {authToken && location.pathname === "/blogs/create" && (
             <PrimaryButton to="/blog">Back to Blogs</PrimaryButton>
           )}
 
-          {user ? (
+          {authToken ? (
             <NavLink
               as="button"
               onClick={logout}

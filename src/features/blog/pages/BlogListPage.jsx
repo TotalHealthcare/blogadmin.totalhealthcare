@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import DOMPurify from "dompurify";
 import React, { useState, useEffect } from "react";
 import { useBlogs, useDeleteBlog } from "../hooks/useBlog";
 import styled from "styled-components";
@@ -66,7 +68,7 @@ const BlogListPage = () => {
               {new Date(blog.publishedAt).toDateString()}
             </CardMeta>
             <CardExcerpt>
-              {blog.excerpt || blog.content.slice(0, 100)}...
+              {blog.excerpt || stripHtml(blog.content).slice(0, 100)}...
             </CardExcerpt>
           </BlogCard>
         ))}
@@ -125,7 +127,11 @@ const BlogListPage = () => {
                 : selectedBlog.author || "Unknown"}{" "}
               · {new Date(selectedBlog.createdAt).toDateString()}
             </DetailMeta>
-            <DetailContent>{selectedBlog.content}</DetailContent>
+            <DetailContent
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(selectedBlog.content),
+              }}
+            />
             <ActionButtons>
               <ButtonLink to={`/blogs/${selectedBlog.slug}`}>
                 Read More
@@ -326,4 +332,9 @@ const EmptyPreview = styled.p`
   padding: 2rem 0;
 `;
 
+const stripHtml = (html) => {
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+};
 export default BlogListPage;
