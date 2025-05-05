@@ -179,6 +179,8 @@ const MenuBar = ({ editor }) => {
 const CreateBlogPage = () => {
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
   const navigate = useNavigate();
   const { mutate: createBlog, isLoading, isError, error } = useCreateBlog();
 
@@ -201,6 +203,30 @@ const CreateBlogPage = () => {
       },
     },
   });
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select an image file");
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image must be smaller than 5MB");
+        return;
+      }
+      setCoverImage(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -265,10 +291,19 @@ const CreateBlogPage = () => {
         <TitleInput
           type="file"
           id="coverImage"
-          onChange={(e) => setCoverImage(e.target.files[0])}
-          accept="image/*"
+          onChange={handleImageChange}
+          accept="image/png, image/jpeg, image/webp"
+          aria-describedby="imageHelp"
         />
-
+        {imagePreview && (
+          <div style={{ margin: "10px 0" }}>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: "100%", maxHeight: "200px" }}
+            />
+          </div>
+        )}
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Creating..." : "Create Blog"}
         </Button>

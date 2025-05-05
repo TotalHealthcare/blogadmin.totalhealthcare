@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../../context/authContext";
-
+import logo from "/src/assets/logo.svg";
 const NavbarWrapper = styled.div`
   width: 100%;
   background-color: white;
@@ -61,7 +61,31 @@ const Navbar = () => {
   return (
     <NavbarWrapper>
       <NavbarContainer>
-        <NavLink to="/">THC BLOG</NavLink>
+        <NavLink
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            textDecoration: "none",
+          }}
+        >
+          <img
+            src={logo}
+            alt="Total healthcare logo"
+            style={{ height: "30px" }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: "1.2",
+            }}
+          >
+            <span style={{ fontWeight: "bold" }}>Total</span>
+            <span>Healthcare</span>
+          </div>
+        </NavLink>
         <NavLinks>
           <NavLink to="/blog">Blogs</NavLink>
 

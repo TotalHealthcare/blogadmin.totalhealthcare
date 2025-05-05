@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./features/blog/components/Navbar";
 import BlogListPage from "./features/blog/pages/BlogListPage";
+import ListPage from "./features/blog/pages/ListPage";
 import BlogDetailPage from "./features/blog/pages/BlogDetailPage";
 import CreateBlogPage from "./features/blog/pages/CreateBlogPage";
 import EditBlogPage from "./features/blog/pages/editBlogPage";
@@ -24,6 +25,7 @@ const App = () => {
           <Navbar />
           <div style={{ marginTop: "60px" }}>
             <Routes>
+              <Route path="/" element={<ListPage />} />
               <Route
                 path="/blog"
                 element={
